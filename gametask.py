@@ -1,13 +1,3 @@
-# simple dungeon text based game (done)
-# where the player can input their name (done)
-# have their own stats (done)
-# you provide the player classes to choose from your own declared classes (done)
-# attack system (for the player pa lang, wala pang attack sa monster, meron so this is DONE)
-# defense and skill mechanism (done) or addtional mechanics (level up, display stats)
-# complete
-# gold (done) and shop
-# end game
-
 from random import choice
 
 #monster/enemy
@@ -18,9 +8,7 @@ monsters = [
     ("Hydra", 10, 27),
 ]
 
-def spawn_monster(monsters_list):
-    monster = choice(monsters_list)
-    return monster
+room_dungeon = 0
 
 print("Welcome to the dungeon game!")
 #player 
@@ -34,6 +22,10 @@ gold = 0 #nakakakuha ng gold every kill ng monster at level up
 
 classes = ["Fighter", "Mage", "Assassin"] #fighter can block an attack, mage can heal, assassin can counter-attack
 class_choice = input(f"\nChoose your class {name} {classes} : ").capitalize()
+
+def spawn_monster(monsters_list):
+    monster = choice(monsters_list)
+    return monster
 
 def level_up():
     global level, experience, gold
@@ -102,6 +94,16 @@ def display_stats():
     print(f"Level: {level}")
     print(f"Experience: {experience}")
 
+def current_stats():
+    print("\nPLAYER STATS:")
+    print(f"Name: {name}")
+    print(f"Class: {class_choice}")
+    print(f"HP: {player_hp}")
+    print(f"Attack: {player_atk}")
+    print(f"Gold: {gold}")
+    print(f"Level: {level}")
+    print(f"Experience: {experience}")
+
 def display_mainmenu():
     mainmenu = ["1: Enter Dungeon", "2: View Stats", "3: Exit"]
     print("\nChoose what to do")
@@ -113,7 +115,7 @@ def display_menu2():
     print("\nWhat do you want to do next?")
     for menu_item in menu2:
         print(menu_item)
-        
+
 # def for menu3 or the "choose an action" create a function for each class attack choices, 
 # as well as file for menu/choice tapos i import dito
 
@@ -168,9 +170,7 @@ def player_attack():
             print("Invalid action, try again.")
     
     if monsthp <= 0:
-        global player_hp
         gold += 10
-        player_hp = permanent_playerhp
         print(f"\nYou defeated the {monstname}!\n")
         print(f"\nYou gain 10 golds for defeating the monster!\n")
         return True
@@ -214,8 +214,8 @@ while True:
             if defeated:
                 break
     
-        if monsthp <= 0:
-            spawn_monster(monsters)
+            if monsthp <= 0:
+                spawn_monster(monsters)
         
     elif action == "2":
         display_stats()
@@ -233,8 +233,9 @@ while True:
     if next_choice == "1":
         continue # continue is used to skip the rest of the code in the loop and start the next iteration of the loop(continue fighting/the loop)
     elif next_choice == "2":
-        display_stats() 
+        current_stats() 
     elif next_choice == "3":
+        player_hp = permanent_playerhp
         print("Returning to the main menu.\n")
     else:
         print("Invalid choice. Returning to main menu!\n")

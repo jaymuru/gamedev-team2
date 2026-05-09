@@ -152,7 +152,7 @@ def player_attack():
         else:
             print("Invalid action, try again.")
 
-    elif class_choice == "Assassin" or class_choice == "assassin": #counter attack, you deal damage to monster kahit turn pa lang ng monster
+    elif class_choice == "Assassin" or class_choice == "assassin": 
         assassin_attack = input("\nChoose an action (attack, counter, retreat): \n> ")
         if assassin_attack == "attack":
             attack()             

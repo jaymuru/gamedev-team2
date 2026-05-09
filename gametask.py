@@ -8,12 +8,19 @@
 # gold (done) and shop
 # end game
 
+from random import choice
+
 #monster/enemy
-monster_name = "Chimera" #can turn into a dictionary 
-#Recorded Meeting (May 06, 2026 - Wednesday) / (Monday, 4 May 2026 - Monday)
-monster_hp = 30
-monster_atk = 5
-newspawnmonsterhp = 30
+monsters = [
+    ("Zephyr", 13, 30),
+    ("Pyro", 12, 29),
+    ("Terra", 11, 28),
+    ("Hydra", 10, 27),
+]
+
+def spawn_monster(monsters_list):
+    monster = choice(monsters_list)
+    return monster
 
 print("Welcome to the dungeon game!")
 #player 
@@ -43,15 +50,15 @@ def gain_experience(amount):
         level_up()
 
 def attack():
-    global monster_hp
-    monster_hp -= player_atk
+    global monsthp
+    monsthp -= player_atk
     print(f"\nYou attack the enemy! Dealt {player_atk} damage!")
-    print(f"{monster_name} HP is now {monster_hp}.")
+    print(f"{monstname} HP is now {monsthp}.")
     gain_experience(20)
 
-    if monster_hp > 0:
+    if monsthp > 0:
         monster_attack()
-        print(f"\nThe monster dealt {monster_atk} damage to you!")  
+        print(f"\nThe monster dealt {monstatk} damage to you!")  
         print(f"Player HP: {player_hp}\n")
 
 def block():
@@ -60,28 +67,28 @@ def block():
 
 def heal():
     global player_hp
-    if player_hp < 25:
+    if player_hp < 65:
         player_hp += 8
-        if player_hp >= 25:
-            player_hp = 25
+        if player_hp >= 65:
+            player_hp = 65
         print(f"Player HP: {player_hp}")
     else:
         print("HP is already full!")
     gain_experience(10)
 
-    if monster_hp > 0:
+    if monsthp > 0:
         monster_attack()
 
 def counter_attack(): #nagtake ng damage yung player pero mas mababa sa original damage ng monster since nag counter attack player
     counterdamge = 6
-    global monster_hp, monster_atk
-    monster_atk -= 2
-    monster_hp -= counterdamge
+    global monsthp, monstatk
+    monstatk -= 2
+    monsthp -= counterdamge
     print(f"\nYou've countered an attack and dealt {counterdamge} damage! ")
-    print(f"{monster_name} HP is now {monster_hp}.")
-    if monster_hp > 0:
+    print(f"{monstname} HP is now {monsthp}.")
+    if monsthp > 0:
         monster_attack()
-        print(f"\nThe monster dealt {monster_atk} damage to you!")  
+        print(f"\nThe monster dealt {monstatk} damage to you!")  
         print(f"Player HP: {player_hp}\n")
     gain_experience(10)
 
@@ -112,10 +119,10 @@ def display_menu2():
 
 def monster_attack():
     global player_hp
-    player_hp -= monster_atk
+    player_hp -= monstatk
 
 def player_attack():
-    global class_choice, monster_hp, gold
+    global class_choice, monsthp, gold
 
     if class_choice == "Fighter" or class_choice == "fighter":
             fighter_attack = input("\nChoose an action (attack, block, retreat): \n> ")
@@ -160,11 +167,11 @@ def player_attack():
         else:
             print("Invalid action, try again.")
     
-    if monster_hp <= 0:
+    if monsthp <= 0:
         global player_hp
         gold += 10
         player_hp = permanent_playerhp
-        print(f"\nYou defeated the {monster_name}!\n")
+        print(f"\nYou defeated the {monstname}!\n")
         print(f"\nYou gain 10 golds for defeating the monster!\n")
         return True
     
@@ -173,20 +180,20 @@ def player_attack():
 while True:
     if class_choice == "Fighter" or class_choice == "fighter":
         print("You have selected fighter class! ")
-        permanent_playerhp = 30
-        player_hp = 30
+        permanent_playerhp = 75
+        player_hp = 75
         player_atk = 10
         break
     elif class_choice == "Mage" or class_choice == "mage":
         print("You have selected mage class! ")
-        permanent_playerhp = 25
-        player_hp = 25
+        permanent_playerhp = 65
+        player_hp = 65
         player_atk = 6
         break
     elif class_choice == "Assassin" or class_choice == "assassin":
         print("You have selected assassin class! ")
-        permanent_playerhp = 27
-        player_hp = 27
+        permanent_playerhp = 70
+        player_hp = 70
         player_atk = 8
         break
     else:
@@ -196,17 +203,19 @@ while True:
 while True:
     display_mainmenu()
     action = input("> ")
-    if monster_hp <= 0:
-        monster_hp = newspawnmonsterhp
 
     if action == "1":
         print("\nYou entered a dungeon.")
-        print(f"A {monster_name} with {monster_hp} HP appeared! ")
+        monstname, monstatk, monsthp = spawn_monster(monsters)
+        print(f"You have encountered a {monstname} wtih {monsthp} HP! ")
 
-        while monster_hp > 0:
+        while monsthp > 0:
             defeated = player_attack()
             if defeated:
                 break
+    
+        if monsthp <= 0:
+            spawn_monster(monsters)
         
     elif action == "2":
         display_stats()

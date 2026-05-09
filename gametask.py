@@ -12,7 +12,7 @@ room_dungeon = 0
 
 print("Welcome to the dungeon game!")
 #player 
-name = input("What is your name? ").capitalize() #can turn into a dictionary, pero nakakatamad
+name = input("What is your name? ").capitalize() 
 permanent_playerhp = 0
 player_hp = 0
 player_atk = 0

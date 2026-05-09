@@ -116,9 +116,6 @@ def display_menu2():
     for menu_item in menu2:
         print(menu_item)
 
-# def for menu3 or the "choose an action" create a function for each class attack choices, 
-# as well as file for menu/choice tapos i import dito
-
 def monster_attack():
     global player_hp
     player_hp -= monstatk

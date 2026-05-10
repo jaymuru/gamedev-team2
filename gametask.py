@@ -147,15 +147,7 @@ def player_attack():
 
         else:
             print("Invalid action, try again.")
-
-    # if monsthp <= 0:
-    #     gold += 10
-    #     print(f"\nYou defeated the {monstname}!\n")
-    #     print(f"\nYou gain 10 golds for defeating the monster!\n")
-    #     return True
-    
-    # return False 
-
+            
 while True:
     if class_choice == "Fighter" or class_choice == "fighter":
         print("You have selected fighter class! ")
@@ -257,14 +249,6 @@ while True:
                 player_hp = permanent_playerhp
                 break
 
-        # while monsthp > 0:
-        #     defeated = player_attack()
-        #     if defeated:
-        #         break
-    
-        #     if monsthp <= 0:
-        #         spawn_monster(monsters)
-        
     elif action == "2":
         display_stats()
         continue

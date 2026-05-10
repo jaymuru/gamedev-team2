@@ -2,15 +2,17 @@ from random import choice
 
 #monster/enemy
 monsters = [
-    ("Zephyr", 13, 30, 30),
-    ("Pyro", 12, 29, 29),
-    ("Terra", 11, 28, 28),
-    ("Hydra", 10, 27,27),
+    ("Zephyr", 11, 30),
+    ("Pyro", 10, 29),
+    ("Terra", 9, 28),
+    ("Hydra", 8, 27),
 ]
 
 dungeon_room = 1
 
 print("Welcome to the dungeon game!")
+print("Clear Dungeons to win! ")
+
 #player 
 name = input("What is your name? ").capitalize() 
 permanent_playerhp = 0
@@ -28,7 +30,9 @@ def spawn_monster(monsters_list):
     return monster
 
 def level_up():
-    global level, experience, gold
+    global level, experience, gold, player_atk, permanent_playerhp
+    permanent_playerhp += 5
+    player_atk += 3
     level += 1
     experience = 0
     gold += 10
@@ -55,7 +59,7 @@ def block():
 def heal():
     global player_hp
     if player_hp < 80:
-        player_hp += 13
+        player_hp += 12
         if player_hp >= 80:
             player_hp = 80
         print(f"Player HP: {player_hp}")
@@ -64,7 +68,7 @@ def heal():
     gain_experience(10)
 
 def counter_attack(): #nagtake ng damage yung player pero mas mababa sa original damage ng monster since nag counter attack player
-    counterdamge = 6
+    counterdamge = 8
     global monsthp, monstatk
     monstatk -= 2
     monsthp -= counterdamge
@@ -101,53 +105,9 @@ def display_mainmenu():
 def monster_attack():
     global player_hp
     player_hp -= monstatk
-    print(f"\nThe monster dealt {monstatk} damage to you!\n")  
+    print(f"\nThe monster dealt {monstatk} damage to you!")  
     print(f"HP: {player_hp}\n")
 
-def player_attack():
-    global class_choice
-    if class_choice == "Fighter" or class_choice == "fighter":
-        fighter_attack = input("\nChoose an action (attack, block, retreat): \n> ")
-        if fighter_attack == "attack":
-            attack()             
-        
-        elif fighter_attack == "block":
-            block()
-        
-        elif fighter_attack == "retreat":
-            print("You run away! Returning to main menu.")
-
-        else:
-            print("Invalid action, try again.")
-
-    elif class_choice == "Mage" or class_choice == "mage":
-        mage_attack = input("\nChoose an action (attack, heal, retreat): \n> ")
-        if mage_attack == "attack":
-            attack()             
-            
-        elif mage_attack == "heal":
-            heal()
-            
-        elif mage_attack == "retreat":
-            print("You run away! Returning to main menu.")
-
-        else:
-            print("Invalid action, try again.")
-
-    elif class_choice == "Assassin" or class_choice == "assassin": 
-        assassin_attack = input("\nChoose an action (attack, counter, retreat): \n> ")
-        if assassin_attack == "attack":
-            attack()             
-            
-        elif assassin_attack == "counter":
-            counter_attack()
-            
-        elif assassin_attack == "retreat":
-            print("You run away! Returning to main menu.")
-
-        else:
-            print("Invalid action, try again.")
-            
 while True:
     if class_choice == "Fighter" or class_choice == "fighter":
         print("You have selected fighter class! ")
@@ -176,8 +136,8 @@ while True:
     action = input("> ")
 
     if action == "1":
-        print(f"\nYou entered a dungeon. Room {dungeon_room}")
-        monstname, monstatk, monsthp, monster_hp = spawn_monster(monsters)
+        print(f"\nYou entered a dungeon. Room {dungeon_room}: The Cinder Path.")
+        monstname, monstatk, monsthp = spawn_monster(monsters)
         print(f"You have encountered a {monstname} wtih {monsthp} HP! ")
 
         while True:
@@ -231,12 +191,14 @@ while True:
                 gold += 10
                 print(f"\nYou defeated the {monstname}")
                 print(f"\nYou gain 10 golds for defeating the monster!\n")
-                monsthp = monster_hp
                 dungeon_room += 1
                 if dungeon_room <= 3:
-                    print(f"\nYou are in room {dungeon_room} of the dungeon! ")
-                    monstname, monstatk, monsthp, monster_hp = spawn_monster(monsters)
-                    print(f"New {monstname} with {monsthp} appeared! ")
+                    if dungeon_room == "2":
+                        print(f"\nYou are in room {dungeon_room} of the dungeon! The Cistern of Solitude.")
+                    else:
+                        print(f"\nYou are in room {dungeon_room} of the dungeon! The Confluence Basic")
+                    monstname, monstatk, monsthp = spawn_monster(monsters)
+                    print(f"New {monstname} with {monsthp} HP appeared! ")
                     continue
                 else:
                     dungeon_room = 1
